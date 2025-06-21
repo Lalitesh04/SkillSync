@@ -44,10 +44,13 @@ export default function Index(){
                     </Link>
                 </div>
                 {/* Footer */}
-                <div>
-                    <p> </p>
-                </div>
-            </section>
+                <footer className="w-full fixed bottom-0 left-0 py-4 bg-white/80 border-t shadow-inner rounded-t-2xl z-50">
+                    <p className="text-gray-500 text-sm text-center">
+                        &copy; {new Date().getFullYear()} <strong>SkillSync</strong>. Crafted with <span className="text-pink-500">&#10084;</span> by <strong>Lalitesh M</strong>.
+                    </p>
+                </footer>
+
+                </section>
         </div>
     )
 }

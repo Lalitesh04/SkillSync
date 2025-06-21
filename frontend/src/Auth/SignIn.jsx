@@ -2,7 +2,7 @@ import {Link, redirect, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Config from "../Config";
-import {toast} from "../hooks/use-toast"
+import { toast } from "sonner"
 import { jwtDecode } from "jwt-decode";
 
 
@@ -26,11 +26,7 @@ export function SignIn() {
         e.preventDefault();
         
         if (!formData.email || !formData.password) {
-            toast({
-                description: "Email and password are required.",
-                variant: "destructive",
-                duration: 3000,
-            });
+           toast.error("Email and password are required.");
             return;
         }
 
@@ -38,25 +34,15 @@ export function SignIn() {
 
         try {
             const response = await axios.post(Config.SIGNIN, formData);
-            
-            toast({
-                title: "Login successful",
-                description: response.data,
-                variant: "success",
-                duration: 3000,
-            });
-
+        
+            toast.success("Login successful!");
             try {
                 localStorage.setItem("token", response.data);
                 const userInfo = jwtDecode(response.data);
                 console.log("User Info:", userInfo);
 
                 if (!userInfo || !userInfo.sub) {
-                    toast({
-                        description: "Invalid token received.",
-                        variant: "destructive",
-                        duration: 3000,
-                    });
+                    toast.error("Invalid token received.");
                     return;
                 }
 
@@ -72,31 +58,20 @@ export function SignIn() {
                     navigate("/clienthome");
                     break;
                 default:
-                    toast({
-                        description: "Unauthorized role.",
-                        variant: "destructive",
-                        duration: 3000,
-                    });
+                    toast.error("Unauthorized role.");
+                    localStorage.removeItem("token");
                     break;
             }
         } catch (err) {
-            toast({
-                description: "Error decoding token.",
-                variant: "destructive",
-                duration: 3000,
-            });
-    }
-        } catch (err) {
-                
-                toast({
-                    description : "Invalid credentials, please try again.",
-                    variant: "destructive",
-                    duration: 3000,
-                });
-            } finally {
-            setLoading(false);
-            setFormData({ email: "", password: "" });
+            toast.error("Error decoding token.");
         }
+    } catch (err) {
+
+        toast.error("Invalid credentials, please try again.");
+    } finally {
+        setLoading(false);
+        setFormData({ email: "", password: "" });
+    }
     };
 
     return (

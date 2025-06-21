@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.klef.jfsd.proto.user";
+option java_outer_classname = "UserServiceProto";
+
+service UserInternalService {
+  rpc VerifyUserByEmail(VerifyUserByEmailRequest) returns (VerifyUserByEmailResponse);
+}
+
+message VerifyUserByEmailRequest {
+  string email = 1;
+}
+
+message VerifyUserByEmailResponse {
+  bool exists = 1;
+}

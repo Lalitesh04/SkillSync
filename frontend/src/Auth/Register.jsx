@@ -4,7 +4,7 @@ import { Briefcase, Eye, EyeOff, User } from "lucide-react";
 import axios from "axios";
 import { debounce } from "lodash";
 import Config from "../Config";
-import { toast } from "../hooks/use-toast";
+import { toast } from "sonner"
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -107,16 +107,12 @@ export default function Register() {
             );
 
             if (response.status === 201) {
-                toast({
-                    title: "Registration successful! Please check your email to verify your account.",
-                    variant: "success",
-                    duration: 3000
-                });
+                toast.success(response.data || "Registration successful! please sign in to continue.");
                 resetForm();
-                navigate("/login"); 
+                navigate("/signin");
             }
         } catch (err) {
-            toast({ title: "Registration failed. Please try again.", variant: "destructive", duration: 3000 });
+            toast.error(err.response?.data || "Registration failed. Please try again.");
         } finally {
             setLoading(false);
         }

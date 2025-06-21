@@ -6,4 +6,5 @@ public interface JWTService {
     String generateToken(UserDetails userDetails);
     boolean validateToken(String token, UserDetails userDetails);
     String extractUsername(String token);
+    String generateVerificationToken(String email);
 }

@@ -6,7 +6,8 @@ const Config = {
     SIGNIN: `${API}/auth/signIn`,
     SIGNUP: `${API}/auth/signUp`,
     IS_EMAIL_EXIST: `${API}/auth/isEmailExist`,
-    FORGOT_PASSWORD: `${API}/auth/forgot-password`,
+    VERIFICATION_LINK: `${API}/auth/verification-link`,
+    CHANGE_PASSWORD: `${API}/auth/change-password`,
 };
 
 export default Config;

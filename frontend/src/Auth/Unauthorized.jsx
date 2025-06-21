@@ -1,6 +1,5 @@
-"use client"
 
-import { Shield, Home, ArrowLeft } from "lucide-react"
+import { Shield, ArrowLeft } from "lucide-react"
 
 export default function UnauthorizedPage() {
   return (

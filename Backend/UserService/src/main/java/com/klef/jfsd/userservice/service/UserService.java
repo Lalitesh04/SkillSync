@@ -10,4 +10,6 @@ public interface UserService {
     public String checkLogin(LoginRequest loginRequest);
     public boolean isEmailExist(String email);
     public String userRegister(UserRegister userRegister);
+    public String changePassword(String email, String password);
+    public String sendVerificationLink(String email);
 }

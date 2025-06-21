@@ -16,6 +16,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
+import java.time.Duration;
+
 @SpringBootApplication
 public class UserServiceApplication {
 
@@ -25,7 +28,7 @@ public class UserServiceApplication {
 
     @Bean
     @Transactional
-    public CommandLineRunner init(RoleRepository repository, UserRepository userRepository, PasswordEncoder encoder) {
+    public CommandLineRunner init(RoleRepository repository,UserService userService, UserRepository userRepository, PasswordEncoder encoder) {
         return args -> {
             if (repository.findByName("ROLE_ADMIN") == null) {
                 repository.save(Role.builder().name("ROLE_ADMIN").type(RoleType.ADMIN).build());
@@ -44,6 +47,10 @@ public class UserServiceApplication {
                         .build();
                 userRepository.save(user);
             }
+          //  System.out.println(userService.changePassword("admin@gmail.com", "123456"));
+
+            String msg=userService.checkLogin(new LoginRequest("admin@gmail.com", "123456"));
+            System.out.println(msg);
         };
     }
 }

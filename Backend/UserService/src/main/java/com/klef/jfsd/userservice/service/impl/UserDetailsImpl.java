@@ -3,6 +3,7 @@ package com.klef.jfsd.userservice.service.impl;
 import com.klef.jfsd.userservice.models.User;
 import com.klef.jfsd.userservice.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
