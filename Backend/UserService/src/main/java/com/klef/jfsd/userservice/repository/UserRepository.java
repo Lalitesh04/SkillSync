@@ -3,6 +3,7 @@ package com.klef.jfsd.userservice.repository;
 import com.klef.jfsd.userservice.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface UserRepository  extends JpaRepository<User, UUID> {
     void deleteByEmail(String email);
 
     boolean existsByEmail(String email);
+
+    @Query("SELECT u.isLogin FROM User u WHERE u.email = :email")
+    Boolean isLogin(@Param("email") String email);
 }

@@ -1,10 +1,13 @@
 package com.klef.jfsd.userservice.service.impl;
 
 import com.klef.jfsd.userservice.dto.LoginRequest;
+import com.klef.jfsd.userservice.dto.ProfileRequest;
 import com.klef.jfsd.userservice.dto.UserRegister;
+import com.klef.jfsd.userservice.models.Profile;
 import com.klef.jfsd.userservice.models.Role;
 import com.klef.jfsd.userservice.models.RoleType;
 import com.klef.jfsd.userservice.models.User;
+import com.klef.jfsd.userservice.repository.ProfileRepository;
 import com.klef.jfsd.userservice.repository.RoleRepository;
 import com.klef.jfsd.userservice.repository.UserRepository;
 import com.klef.jfsd.userservice.service.JWTService;
@@ -18,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -26,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ProfileRepository profileRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
@@ -81,12 +86,39 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return "User Registered Successfully";
     }
+
+    @Override
+    @Transactional
+    public String profileCreation(ProfileRequest profileRequest, String email) {
+        return userRepository.findByEmail(email)
+                .map(user -> {
+                    Profile profile = Profile.builder()
+                            .bio(profileRequest.bio())
+                            .location(profileRequest.location())
+                            .githubUrl(profileRequest.githubUrl())
+                            .profilePictureUrl(profileRequest.profilePictureUrl())
+                            .linkedInUrl(profileRequest.linkedInUrl())
+                            .portfolioUrl(profileRequest.portfolioUrl())
+                            .skills(profileRequest.skills())
+                            .user(user)
+                            .build();
+
+                    Profile savedProfile = profileRepository.save(profile);
+
+                    user.setProfile(savedProfile);
+                    userRepository.save(user);
+
+                    return "Profile Created Successfully";
+                })
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+    }
+
+
     @Override
     public String changePassword(String email, String password) {
         return userRepository.findByEmail(email)
                 .map(user -> {
                     String encodedPassword = encoder.encode(password);
-                    System.out.println("Saving encoded password: " + encodedPassword);  // ✅ Check this
                     user.setPassword(encodedPassword);
                     userRepository.save(user);
 
@@ -95,6 +127,10 @@ public class UserServiceImpl implements UserService {
                 .orElse("User not found with email: ");
     }
 
+    @Override
+    public boolean isLogin(String email) {
+        return userRepository.isLogin(email);
+    }
 
     @Override
     public String sendVerificationLink(String email) {

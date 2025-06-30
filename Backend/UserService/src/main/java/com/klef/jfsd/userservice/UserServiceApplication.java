@@ -1,13 +1,11 @@
 
 package com.klef.jfsd.userservice;
 
-import com.klef.jfsd.userservice.dto.LoginRequest;
 import com.klef.jfsd.userservice.models.Role;
 import com.klef.jfsd.userservice.models.RoleType;
 import com.klef.jfsd.userservice.models.User;
 import com.klef.jfsd.userservice.repository.RoleRepository;
 import com.klef.jfsd.userservice.repository.UserRepository;
-import com.klef.jfsd.userservice.service.JWTService;
 import com.klef.jfsd.userservice.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.SecureRandom;
-import java.time.Duration;
 
 @SpringBootApplication
 public class UserServiceApplication {
@@ -47,10 +43,6 @@ public class UserServiceApplication {
                         .build();
                 userRepository.save(user);
             }
-          //  System.out.println(userService.changePassword("admin@gmail.com", "123456"));
-
-            String msg=userService.checkLogin(new LoginRequest("admin@gmail.com", "123456"));
-            System.out.println(msg);
         };
     }
 }

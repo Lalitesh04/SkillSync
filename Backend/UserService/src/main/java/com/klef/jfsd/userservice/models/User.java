@@ -40,7 +40,7 @@ public class User {
     private Profile profile;
 
 
-    private boolean isVerified= false;
+    private boolean isLogin= false;
 
 
     @CreationTimestamp

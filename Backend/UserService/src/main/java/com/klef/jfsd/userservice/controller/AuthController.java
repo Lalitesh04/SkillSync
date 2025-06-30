@@ -66,4 +66,13 @@ public class AuthController {
         return ResponseEntity.ok(userService.changePassword(email,password));
     }
 
+    @GetMapping("isLogin")
+    public ResponseEntity<Boolean> isLogin(@RequestHeader("Authorization") String token){
+        String email =  jwtService.extractUsername(token.substring(7));
+        boolean isLogin= userService.isLogin(email);
+        if(isLogin){
+            return ResponseEntity.ok(true);
+        }
+        return  ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(false);
+    }
 }

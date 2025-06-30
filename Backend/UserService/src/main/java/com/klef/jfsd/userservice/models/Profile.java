@@ -37,5 +37,6 @@ public class Profile {
     private Set<String> skills = new HashSet<>();
 
     private String profilePictureUrl;
+
     private String portfolioUrl;
 }
